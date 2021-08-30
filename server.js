@@ -32,6 +32,7 @@ app.get("/", (req, res) => {
 mongoose
   .connect(mongoDB, {
     useUnifiedTopology: true,
+    useNewUrlParser: true,
   })
   .then(() => {
     console.log("Mongodb connected");
