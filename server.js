@@ -1,4 +1,8 @@
+const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+require("dotenv").config();
+const Msg = require("./models/messages");
+
 const app = require("express")();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server, {
@@ -6,6 +10,8 @@ const io = require("socket.io")(server, {
     origin: "*",
   },
 });
+
+const mongoDB = process.env.MONGO_URL;
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -20,14 +26,30 @@ app.use(bodyParser.json());
 
 app.use("/api", require("./routes/api"));
 app.get("/", (req, res) => {
-  res.send("Sahi ha biddu");
+  res.send("Dev Essential's official @ server");
 });
 
+mongoose
+  .connect(mongoDB, {
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Mongodb connected");
+  })
+  .catch((err) => console.log(err));
+
 io.on("connection", (socket) => {
-  // console.log("connection made successfully");
+  Msg.find().then((response) => {
+    socket.emit("DB-messages", response);
+  });
   socket.on("message", (payload) => {
-    // console.log("Message received on server: ", payload);
-    io.emit("message", payload);
+    const message = new Msg({
+      name: payload.userName,
+      message: payload.message,
+    });
+    message.save().then(() => {
+      io.emit("message", payload);
+    });
   });
 });
 
