@@ -17,7 +17,7 @@ app.post("/contest", (req, res) => {
       res.status(200).json(response.data);
     })
     .catch((error) => {
-      res.status(500).json("error");
+      res.status(500).json(error);
     });
 });
 
@@ -33,7 +33,7 @@ app.get("/news-apple", (req, res) => {
     })
     .catch((error) => {
       // console.log(error);
-      res.status(500).json("error");
+      res.status(500).json(error);
     });
 });
 
@@ -49,7 +49,7 @@ app.get("/news-tesla", (req, res) => {
     })
     .catch((error) => {
       // console.log(error);
-      res.status(500).json("error");
+      res.status(500).json(error);
     });
 });
 app.post("/news-keyword", (req, res) => {
