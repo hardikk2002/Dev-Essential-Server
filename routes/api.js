@@ -11,7 +11,10 @@ app.post("/contest", (req, res) => {
   // console.log(req.body.resource);
   axios
     .get(
-      `https://clist.by:443/api/v2/json/contest/?limit=30&resource=${resource}&order_by=-start&${apiKeyClist}`
+      `https://clist.by:443/api/v2/json/contest/?limit=30&resource=${resource}&order_by=-start&${apiKeyClist}`,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
     )
     .then((response) => {
       res.status(200).json(response.data);
@@ -25,7 +28,10 @@ app.get("/news-apple", (req, res) => {
   var currentTime = new Date().toJSON().slice(0, 10);
   axios
     .get(
-      `https://newsapi.org/v2/everything?q=apple&from=${currentTime}&sortBy=popularity&${apiKeyNews}`
+      `https://newsapi.org/v2/everything?q=apple&from=${currentTime}&sortBy=popularity&${apiKeyNews}`,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
     )
     .then((response) => {
       // console.log(response.data.articles.slice(0, 10));
@@ -41,7 +47,10 @@ app.get("/news-tesla", (req, res) => {
   var currentTime = new Date().toJSON().slice(0, 10);
   axios
     .get(
-      `https://newsapi.org/v2/everything?q=tesla&from=${currentTime}&sortBy=popularity&${apiKeyNews}`
+      `https://newsapi.org/v2/everything?q=tesla&from=${currentTime}&sortBy=popularity&${apiKeyNews}`,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
     )
     .then((response) => {
       // console.log(response.data.articles.slice(0, 10));
@@ -58,7 +67,10 @@ app.post("/news-keyword", (req, res) => {
   // console.log(resource);
   axios
     .get(
-      `https://newsapi.org/v2/everything?q=${resource}&from=${currentTime}&sortBy=popularity&${apiKeyNews}`
+      `https://newsapi.org/v2/everything?q=${resource}&from=${currentTime}&sortBy=popularity&${apiKeyNews}`,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
     )
     .then((response) => {
       res.status(200).json(response.data.articles.slice(0, 10));
